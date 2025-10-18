@@ -1,15 +1,27 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { FC, useState, KeyboardEvent, useRef, useEffect } from "react";
+import {
+  FC,
+  KeyboardEvent,
+  useRef,
+  useEffect,
+  SetStateAction,
+  Dispatch,
+} from "react";
 import { Send } from "lucide-react";
 
 interface QueryBarProps {
+  query: string;
+  setQuery: Dispatch<SetStateAction<string>>;
   handleSubmit: (query: string) => void;
 }
 
-const QueryBar: FC<QueryBarProps> = ({ handleSubmit }: QueryBarProps) => {
-  const [query, setQuery] = useState<string>("");
+const QueryBar: FC<QueryBarProps> = ({
+  handleSubmit,
+  query,
+  setQuery,
+}: QueryBarProps) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmitClick = (): void => {

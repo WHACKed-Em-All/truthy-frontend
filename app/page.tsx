@@ -1,36 +1,74 @@
-import { FC } from "react";
+"use client";
+
+import { FC, useEffect, useState } from "react";
 import QueryBar from "./components/QueryBar";
 import TopSourcesSlideshow from "./components/TopSourcesSlideshow";
+import { queryClient } from "./api/client";
+
+const ws = new WebSocket("ws://localhost:8080/ws");
 
 const handleSubmit = async (query: string) => {
-  "use server";
-  console.log(query);
+  await queryClient.newQuery({ query }, ws);
 };
 
 const Home: FC = () => {
+  const [query, setQuery] = useState<string>("");
+
+  useEffect(() => {
+    ws.onopen = () => {
+      console.log("Connected to WebSocket");
+      ws.send("Hello, WebSocket!");
+    };
+    ws.onmessage = (event) => {
+      console.log("Message received:", event.data);
+    };
+    ws.onclose = () => {
+      console.log("WebSocket connection closed");
+    };
+    return () => {
+      ws.close();
+    };
+  }, []);
+
   return (
-    <div className="font-sans items-center justify-items-center min-h-screen">
-      <main className="w-full h-full">
-        <div className="w-4/5 m-[10%]">
-          <div>
-            <QueryBar handleSubmit={handleSubmit} />
+    <div className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden">
+      <div className="font-sans items-center justify-items-center min-h-screen">
+        <main className="w-full h-full">
+          {/* Blurred & transparent background image layer */}
+          <div
+            className="absolute inset-0 bg-center opacity-60 blur-sm"
+            style={{
+              backgroundImage: `url('/background.png')`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "600px",
+              backgroundColor: "#AEAEAE",
+            }}
+          />
+          <div className="w-4/5 m-[10%]">
+            <div>
+              <QueryBar
+                handleSubmit={handleSubmit}
+                query={query}
+                setQuery={setQuery}
+              />
+            </div>
+            <div>
+              <TopSourcesSlideshow
+                sources={[
+                  "something",
+                  "something2",
+                  "something3",
+                  "something4",
+                  "something5",
+                  "something6",
+                  "something7",
+                  "something8",
+                ]}
+              />
+            </div>
           </div>
-          <div>
-            <TopSourcesSlideshow
-              sources={[
-                "something",
-                "something2",
-                "something3",
-                "something4",
-                "something5",
-                "something6",
-                "something7",
-                "something8",
-              ]}
-            />
-          </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };
