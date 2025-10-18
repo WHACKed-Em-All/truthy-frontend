@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from "react";
 import QueryBar from "./components/QueryBar";
 import TopSourcesSlideshow from "./components/TopSourcesSlideshow";
 import { queryClient } from "./api/client";
+import { SourceType, ClusterNodeType } from "./types";
 
 const ws = new WebSocket("ws://localhost:8080/ws");
 
@@ -13,6 +14,7 @@ const handleSubmit = async (query: string) => {
 
 const Home: FC = () => {
   const [query, setQuery] = useState<string>("");
+  const [sources, setSources] = useState<SourceType[]>([]);
 
   useEffect(() => {
     ws.onopen = () => {
@@ -32,7 +34,7 @@ const Home: FC = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden">
-      <div className="font-sans items-center justify-items-center min-h-screen">
+      <div className="font-sans items-center justify-items-center w-[80%] min-h-screen">
         <main className="w-full h-full">
           {/* Blurred & transparent background image layer */}
           <div
@@ -53,18 +55,7 @@ const Home: FC = () => {
               />
             </div>
             <div>
-              <TopSourcesSlideshow
-                sources={[
-                  "something",
-                  "something2",
-                  "something3",
-                  "something4",
-                  "something5",
-                  "something6",
-                  "something7",
-                  "something8",
-                ]}
-              />
+              <TopSourcesSlideshow sources={sources} />
             </div>
           </div>
         </main>

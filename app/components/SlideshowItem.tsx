@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { SourceType } from "../types";
+import ExtraSourceData from "./ExtraSourceData";
 
 interface SlideshowItemProps {
   source: SourceType;
@@ -45,12 +46,11 @@ const SlideshowItem: FC<SlideshowItemProps> = ({
         transition-all duration-300 text-gray-800 dark:text-gray-200
       `}
       >
-        {source}
+        {source.sourceName}
       </div>
       {isHovered && (
         <div className="mt-2 text-gray-600 dark:text-gray-400 animate-fade-in text-xs">
-          <p>Expanded: {source}</p>
-          <p className="mt-1">More details here...</p>
+          <ExtraSourceData source={source} />
         </div>
       )}
     </div>
