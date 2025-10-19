@@ -12,9 +12,11 @@ export const handleMessage = (
   }
 
   const type: MessageType = message.type;
+  const data = message[type];
 
   switch (type) {
     case "error":
+      alert(data);
       break;
     case "source":
       break;
