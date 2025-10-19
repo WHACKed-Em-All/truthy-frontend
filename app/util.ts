@@ -1,9 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
-import { MessageType } from "./types";
+import { ClusterNodeType, MessageType, SourceType } from "./types";
 
 export const handleMessage = (
   messageData: string,
-  setConsensus: Dispatch<SetStateAction<string>>
+  setConsensus: Dispatch<SetStateAction<string>>,
+  setClusterNodes: Dispatch<SetStateAction<ClusterNodeType[]>>,
+  setSources: Dispatch<SetStateAction<SourceType[]>>,
+  setAlternativeViews: Dispatch<SetStateAction<string[]>>
 ) => {
   console.log("Message received:", messageData);
   const message = JSON.parse(messageData);
@@ -21,6 +24,7 @@ export const handleMessage = (
     case "source":
       break;
     case "graphnode":
+      setClusterNodes(data);
       break;
     case "ranking":
       break;

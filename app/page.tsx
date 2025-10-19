@@ -6,6 +6,8 @@ import TopSourcesSlideshow from "./components/TopSourcesSlideshow";
 import { queryClient } from "./api/client";
 import { SourceType, ClusterNodeType } from "./types";
 import { handleMessage } from "./util";
+import Cluster from "./components/Cluster";
+import AlternativeViews from "./components/AlternativeViews";
 
 const ws = new WebSocket("ws://localhost:8000/ws");
 
@@ -18,11 +20,18 @@ const Home: FC = () => {
   const [consensus, setConsensus] = useState<string>("");
   const [sources, setSources] = useState<SourceType[]>([]);
   const [clusterNodes, setClusterNodes] = useState<ClusterNodeType[]>([]);
+  const [alternativeViews, setAlternativeViews] = useState<string[]>([]);
 
   useEffect(() => {
     ws.onopen = () => console.log("WebSocket connection opened");
     ws.onmessage = (event) => {
-      handleMessage(event.data, setConsensus);
+      handleMessage(
+        event.data,
+        setConsensus,
+        setClusterNodes,
+        setSources,
+        setAlternativeViews
+      );
     };
     ws.onclose = () => console.log("WebSocket connection closed");
     return () => {
@@ -56,10 +65,17 @@ const Home: FC = () => {
               <TopSourcesSlideshow sources={sources} />
             </div>
           </div>
-          <div className="w-4/5 m-[5%]">
+          <div className="w-4/5 m-[10%]">
             <div>
               <h3>General Consensus</h3>
               <p>{consensus}</p>
+            </div>
+            <div>
+              <h3>Alternative Views</h3>
+              <AlternativeViews alternativeViews={alternativeViews} />
+            </div>
+            <div>
+              <Cluster clusterItems={clusterNodes} />
             </div>
           </div>
         </main>
