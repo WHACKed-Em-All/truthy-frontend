@@ -4,9 +4,9 @@ import { FC, useEffect, useState } from "react";
 import QueryBar from "./components/QueryBar";
 import TopSourcesSlideshow from "./components/TopSourcesSlideshow";
 import { queryClient } from "./api/client";
-import { SourceType, ClusterNodeType } from "./types";
+import { SourceType, ClusterNodeType, RankingType } from "./types";
 import { handleMessage } from "./util";
-import Cluster from "./components/Cluster";
+import SimpleScatterPlot from "./components/SimpleScatterPlot";
 import AlternativeViews from "./components/AlternativeViews";
 
 const ws = new WebSocket("ws://localhost:8000/ws");
@@ -19,7 +19,7 @@ const handleSubmit = async (query: string, resetAll: () => void) => {
 const Home: FC = () => {
   const [query, setQuery] = useState<string>("");
   const [consensus, setConsensus] = useState<string>("");
-  const [sources, setSources] = useState<SourceType[]>([]);
+  const [sources, setSources] = useState<RankingType[]>([]);
   const [clusterNodes, setClusterNodes] = useState<ClusterNodeType[]>([]);
   const [alternativeViews, setAlternativeViews] = useState<string[]>([]);
 
@@ -31,7 +31,7 @@ const Home: FC = () => {
         setConsensus,
         (newClusterNodes: ClusterNodeType[]) =>
           setClusterNodes([...clusterNodes, ...newClusterNodes]),
-        (newSources: SourceType[]) => setSources([...sources, ...newSources]),
+        (newSources: RankingType[]) => setSources([...sources, ...newSources]),
         (newAlternatives: string[]) =>
           setAlternativeViews([...alternativeViews, ...newAlternatives])
       );
@@ -85,7 +85,7 @@ const Home: FC = () => {
               <AlternativeViews alternativeViews={alternativeViews} />
             </div>
             <div>
-              <Cluster clusterItems={clusterNodes} />
+              <SimpleScatterPlot clusterItems={clusterNodes} />
             </div>
           </div>
         </main>

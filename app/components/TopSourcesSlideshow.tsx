@@ -2,11 +2,11 @@
 
 import { FC, useState } from "react";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { SourceType } from "../types";
+import { RankingType, SourceType } from "../types";
 import SlideshowItem from "./SlideshowItem";
 
 interface TopSourcesSlideshowProps {
-  sources: SourceType[];
+  sources: RankingType[];
 }
 
 const TopSourcesSlideshow: FC<TopSourcesSlideshowProps> = ({

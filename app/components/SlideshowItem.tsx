@@ -1,10 +1,9 @@
 import { FC } from "react";
-import { SourceType, TrustType } from "../types";
+import { RankingType, SourceType } from "../types";
 import ExtraSourceData from "./ExtraSourceData";
 
 interface SlideshowItemProps {
-  source: SourceType;
-  trustValues?: TrustType;
+  source: RankingType;
   isHovered: boolean;
   onHover: () => void;
   onLeave: () => void;
@@ -14,7 +13,6 @@ interface SlideshowItemProps {
 
 const SlideshowItem: FC<SlideshowItemProps> = ({
   source,
-  trustValues,
   isHovered,
   onHover,
   onLeave,
@@ -48,11 +46,14 @@ const SlideshowItem: FC<SlideshowItemProps> = ({
         transition-all duration-300 text-gray-800 dark:text-gray-200
       `}
       >
-        <a href={source.url}>{source.sourceName}</a>
+        <span>{source.sourceName}</span>
+      </div>
+      <div>
+        <span>{source.aggregatedTrust}</span>
       </div>
       {isHovered && (
         <div className="mt-2 text-gray-600 dark:text-gray-400 animate-fade-in text-xs">
-          {trustValues && <ExtraSourceData trustValues={trustValues} />}
+          {source.aggregatedTrust && <ExtraSourceData source={source} />}
         </div>
       )}
     </div>

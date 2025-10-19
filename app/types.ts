@@ -8,6 +8,13 @@ export type SourceType = {
   authorKarma: number;
   authorVerified: boolean;
   authorCreated: Date;
+  aggregatedTrust?: number; // T
+  authority?: number; // A
+  evidenceDensity?: number; // E
+  objectivity?: number; // O
+  clarity?: number; // C
+  linguisticIntegrity?: number; // L
+  userTrust?: number; // U
 };
 
 export type ClusterNodeType = {
@@ -21,14 +28,16 @@ export type ClusterNodeType = {
   visY: number;
 };
 
-export type TrustType = {
+export type RankingType = {
   sourceId: string;
-  authority: number;
-  evidenceDensity: number;
-  objectivity: number;
-  clarity: number;
-  linguisticIntegrity: number;
-  userTrust: number;
+  sourceName: string;
+  aggregatedTrust: number; // T
+  authority: number; // A
+  evidenceDensity: number; // E
+  objectivity: number; // O
+  clarity: number; // C
+  linguisticIntegrity: number; // L
+  userTrust: number; // U
 };
 
 export type MessageType =
@@ -38,4 +47,5 @@ export type MessageType =
   | "status"
   | "consensus"
   | "alternative"
-  | "error";
+  | "error"
+  | "sources";
