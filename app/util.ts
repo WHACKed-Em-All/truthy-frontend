@@ -4,9 +4,9 @@ import { ClusterNodeType, MessageType, SourceType } from "./types";
 export const handleMessage = (
   messageData: string,
   setConsensus: Dispatch<SetStateAction<string>>,
-  setClusterNodes: Dispatch<SetStateAction<ClusterNodeType[]>>,
-  setSources: Dispatch<SetStateAction<SourceType[]>>,
-  setAlternativeViews: Dispatch<SetStateAction<string[]>>
+  addClusterNodes: (newClusterNodes: ClusterNodeType[]) => void,
+  addSources: (newSources: SourceType[]) => void,
+  addAlternativeViews: (newAlternatives: string[]) => void
 ) => {
   console.log("Message received:", messageData);
   const message = JSON.parse(messageData);
@@ -22,20 +22,21 @@ export const handleMessage = (
       alert(data);
       break;
     case "source":
+      addSources(data);
       break;
     case "graphnode":
-      setClusterNodes(data);
+      addClusterNodes(data);
       break;
     case "ranking":
       break;
-    case "summary":
-      break;
     case "status":
+      console.log(data);
       break;
     case "consensus":
       setConsensus(message.consensus);
       break;
     case "alternative":
+      addAlternativeViews(data);
       break;
     default:
       throw new Error(`Unhandled message type: ${type}`);

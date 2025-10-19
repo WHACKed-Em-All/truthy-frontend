@@ -35,7 +35,6 @@ export type MessageType =
   | "source"
   | "graphnode"
   | "ranking"
-  | "summary"
   | "status"
   | "consensus"
   | "alternative"

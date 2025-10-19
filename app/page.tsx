@@ -28,9 +28,11 @@ const Home: FC = () => {
       handleMessage(
         event.data,
         setConsensus,
-        setClusterNodes,
-        setSources,
-        setAlternativeViews
+        (newClusterNodes: ClusterNodeType[]) =>
+          setClusterNodes([...clusterNodes, ...newClusterNodes]),
+        (newSources: SourceType[]) => setSources([...sources, ...newSources]),
+        (newAlternatives: string[]) =>
+          setAlternativeViews([...alternativeViews, ...newAlternatives])
       );
     };
     ws.onclose = () => console.log("WebSocket connection closed");
