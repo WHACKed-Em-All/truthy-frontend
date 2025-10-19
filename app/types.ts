@@ -20,3 +20,13 @@ export type ClusterNodeType = {
   visX: number;
   visY: number;
 };
+
+export type MessageType =
+  | "source"
+  | "graphnode"
+  | "ranking"
+  | "summary"
+  | "status"
+  | "consensus"
+  | "alternative"
+  | "error";

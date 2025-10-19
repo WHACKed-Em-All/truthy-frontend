@@ -5,8 +5,9 @@ import QueryBar from "./components/QueryBar";
 import TopSourcesSlideshow from "./components/TopSourcesSlideshow";
 import { queryClient } from "./api/client";
 import { SourceType, ClusterNodeType } from "./types";
+import { handleMessage } from "./util";
 
-const ws = new WebSocket("ws://localhost:8080/ws");
+const ws = new WebSocket("ws://localhost:8000/ws");
 
 const handleSubmit = async (query: string) => {
   await queryClient.newQuery({ query }, ws);
@@ -14,19 +15,16 @@ const handleSubmit = async (query: string) => {
 
 const Home: FC = () => {
   const [query, setQuery] = useState<string>("");
+  const [consensus, setConsensus] = useState<string>("");
   const [sources, setSources] = useState<SourceType[]>([]);
+  const [clusterNodes, setClusterNodes] = useState<ClusterNodeType[]>([]);
 
   useEffect(() => {
-    ws.onopen = () => {
-      console.log("Connected to WebSocket");
-      ws.send("Hello, WebSocket!");
-    };
+    ws.onopen = () => console.log("WebSocket connection opened");
     ws.onmessage = (event) => {
-      console.log("Message received:", event.data);
+      handleMessage(event.data, setConsensus);
     };
-    ws.onclose = () => {
-      console.log("WebSocket connection closed");
-    };
+    ws.onclose = () => console.log("WebSocket connection closed");
     return () => {
       ws.close();
     };
@@ -56,6 +54,12 @@ const Home: FC = () => {
             </div>
             <div>
               <TopSourcesSlideshow sources={sources} />
+            </div>
+          </div>
+          <div className="w-4/5 m-[5%]">
+            <div>
+              <h3>General Consensus</h3>
+              <p>{consensus}</p>
             </div>
           </div>
         </main>
