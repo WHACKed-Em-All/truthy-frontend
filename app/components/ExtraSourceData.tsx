@@ -1,22 +1,22 @@
 import { FC } from "react";
-import { SourceType } from "../types";
+import { TrustType } from "../types";
 
 interface ExtraSourceDataProps {
-  source: SourceType;
+  trustValues: TrustType;
+  trustWorthiness?: number;
 }
 
 const ExtraSourceData: FC<ExtraSourceDataProps> = ({
-  source,
+  trustValues,
 }: ExtraSourceDataProps) => {
   return (
     <div>
-      <p>Source Name: {source.sourceName}</p>
-      <p>Source URL: {source.url}</p>
-      <p>Author: {source.authorUsername}</p>
-      <p>Followers: {source.authorFollowers}</p>
-      <p>Karma: {source.authorKarma}</p>
-      <p>Verified: {source.authorVerified ? "Yes" : "No"}</p>
-      <p>Created: {source.authorCreated.toDateString()}</p>
+      <p>Authority: {trustValues.authority}</p>
+      <p>Clarity: {trustValues.clarity}</p>
+      <p>Evidence Density: {trustValues.evidenceDensity}</p>
+      <p>Linguistic Integrity: {trustValues.linguisticIntegrity}</p>
+      <p>Objectivity: {trustValues.objectivity}</p>
+      <p>User Trust: {trustValues.userTrust}</p>
     </div>
   );
 };

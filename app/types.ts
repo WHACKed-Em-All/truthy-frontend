@@ -21,6 +21,16 @@ export type ClusterNodeType = {
   visY: number;
 };
 
+export type TrustType = {
+  sourceId: string;
+  authority: number;
+  evidenceDensity: number;
+  objectivity: number;
+  clarity: number;
+  linguisticIntegrity: number;
+  userTrust: number;
+};
+
 export type MessageType =
   | "source"
   | "graphnode"
