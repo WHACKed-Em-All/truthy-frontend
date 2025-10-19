@@ -11,7 +11,8 @@ import AlternativeViews from "./components/AlternativeViews";
 
 const ws = new WebSocket("ws://localhost:8000/ws");
 
-const handleSubmit = async (query: string) => {
+const handleSubmit = async (query: string, resetAll: () => void) => {
+  resetAll(); // reset all fields for new query for repopulation
   await queryClient.newQuery({ query }, ws);
 };
 
@@ -58,7 +59,14 @@ const Home: FC = () => {
           <div className="w-4/5 m-[10%]">
             <div>
               <QueryBar
-                handleSubmit={handleSubmit}
+                handleSubmit={(result) =>
+                  handleSubmit(result, () => {
+                    setConsensus("");
+                    setSources([]);
+                    setClusterNodes([]);
+                    setAlternativeViews([]);
+                  })
+                }
                 query={query}
                 setQuery={setQuery}
               />
